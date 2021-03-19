@@ -1,0 +1,181 @@
+﻿<%--<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="MasterPage" %>--%>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <title>Kütahya Konak Tarhana</title>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    </head>
+<body>
+    <form runat="server">
+        
+                      <nav class="navbar navbar navbar-toggleable-md navbar-light sticky-top bg-light ">
+                  <canvas id="canvas" width="100" height="100" style="background-color:#333"></canvas>
+<img src="img/logo.jpeg" width="128" height="128" class="figure-img img-fluid pull-right" /><h1>Kütahya Konak Tarhana</h1>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <button type="button" class="navbar-brand btn btn-light btn-outline-success btn-xl" data-toggle="modal" data-target="#myModal">Fiyatlar</button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+          <asp:LinkButton ID="LinkButton1" runat="server" CssClass="btn btn-link btn-block btn-lg bg-light">Ana Sayfa</asp:LinkButton>&nbsp
+      </li>
+      <li class="nav-item">
+          <asp:LinkButton ID="LinkButton2" runat="server" CssClass="btn btn-link btn-block btn-lg bg-light" PostBackUrl="~/eshop.aspx">Alışveriş Yap</asp:LinkButton>&nbsp
+      </li>
+      <li class="nav-item">
+          <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-primary btn-block btn-lg outline-light" NavigateUrl="~/account.aspx" ValidateRequestMode="Disabled">Ben</asp:HyperLink>
+      </li>
+    </ul>
+  </div>
+        </nav>
+                   <div class="jumbotron bg-light">     <p></p>
+            <h1 style="text-align:center;"><a class="link" href="https://wa.me/+9005076096611">WHATSAPP İLETİŞİM HATTI : 0507 609 66 11</a></h1>
+        </div>
+                          <asp:SqlDataSource ID="abc" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\sipariş.accdb" ProviderName="System.Data.OleDb" SelectCommand="SELECT urunAdi as 'Ürün Adı', Baharat, birimFiyat as 'Fiyat' 
+FROM urunler;"></asp:SqlDataSource>
+    <div>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+
+                        <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Fiyatlarımız</h4>
+                    <button class="close" data-dismiss="modal" type="button">×</button>
+                </div>
+                <div class="modal-body">
+                   
+                      <asp:GridView ID="GridView2" runat="server" AllowSorting="True" AutoGenerateColumns="False" DataSourceID="abc" CssClass="table table-block">
+                          <Columns>
+                              <asp:BoundField DataField="'Ürün Adı'" HeaderText="'Ürün Adı'" SortExpression="'Ürün Adı'" />
+                              <asp:CheckBoxField DataField="Baharat" HeaderText="Baharat" SortExpression="Baharat" />
+                              <asp:BoundField DataField="'Fiyat'" HeaderText="'Fiyat'" SortExpression="'Fiyat'" />
+                          </Columns>
+                      </asp:GridView>
+
+            <br />
+            <!--<asp:Button ID="Button1" runat="server" CSSClass="btn btn-success outline-light btn-block" ForeColor="White" Height="51px" PostBackUrl="~/eshop/payment.aspx" style="font-weight: 700; font-size: large" Text="Ödeme Yap" Width="100%" />
+            -->    </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger btn-block" data-dismiss="modal" type="button">Kapat</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+            <script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var radius = canvas.height / 2;
+ctx.translate(radius, radius);
+radius = radius * 0.90
+setInterval(drawClock, 1000);
+
+function drawClock() {
+  drawFace(ctx, radius);
+  drawNumbers(ctx, radius);
+  drawTime(ctx, radius);
+}
+
+function drawFace(ctx, radius) {
+  var grad;
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, 2*Math.PI);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+  grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
+  grad.addColorStop(0, '#333');
+  grad.addColorStop(0.5, 'white');
+  grad.addColorStop(1, '#333');
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = radius*0.1;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
+  ctx.fillStyle = '#333';
+  ctx.fill();
+}
+
+function drawNumbers(ctx, radius) {
+  var ang;
+  var num;
+  ctx.font = radius*0.15 + "px arial";
+  ctx.textBaseline="middle";
+  ctx.textAlign="center";
+  for(num = 1; num < 13; num++){
+    ang = num * Math.PI / 6;
+    ctx.rotate(ang);
+    ctx.translate(0, -radius*0.85);
+    ctx.rotate(-ang);
+    ctx.fillText(num.toString(), 0, 0);
+    ctx.rotate(ang);
+    ctx.translate(0, radius*0.85);
+    ctx.rotate(-ang);
+  }
+}
+
+function drawTime(ctx, radius){
+    var now = new Date();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+    //hour
+    hour=hour%12;
+    hour=(hour*Math.PI/6)+
+    (minute*Math.PI/(6*60))+
+    (second*Math.PI/(360*60));
+    drawHand(ctx, hour, radius*0.5, radius*0.07);
+    //minute
+    minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
+    drawHand(ctx, minute, radius*0.8, radius*0.07);
+    // second
+    second=(second*Math.PI/30);
+    drawHand(ctx, second, radius*0.9, radius*0.02);
+}
+
+function drawHand(ctx, pos, length, width) {
+    ctx.beginPath();
+    ctx.lineWidth = width;
+    ctx.lineCap = "round";
+    ctx.moveTo(0,0);
+    ctx.rotate(pos);
+    ctx.lineTo(0, -length);
+    ctx.stroke();
+    ctx.rotate(-pos);
+}
+</script>
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <footer>
+                <div class="container">
+  
+  <a href="#" data-toggle="popover" title="Telif Hakkı" data-content="U-Systems tarafından derlenmiştir, tüm hakları saklıdır." data-placement="top"><%: DateTime.Now.Year %> | Telif Hakkı için Tıklayınız</a>
+</div>
+
+            </footer>
+        </div>
+        <script>
+$(document).ready(function(){
+  $('[data-toggle="popover"]').popover();   
+});
+</script>
+    </form>
+</body>
+</html>
