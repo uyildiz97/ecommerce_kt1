@@ -24,8 +24,8 @@ public partial class _Default : System.Web.UI.Page
         //try
         {
             var from = TextEmail.Text.ToString();
-            var to = "ufkyldz1996@gmail.com";
-            const string password = "ts11hr710tk";
+            var to = "username@gmail.com";
+            const string password = "password";
             string mail_subject = TextAdres.Text.ToString();
             string mail_message = "From : " + TextName.Text + "\n";
             mail_message += "Email: " + TextEmail.Text + "\n";
